@@ -1,48 +1,79 @@
 ﻿using BankAccount;
+using static System.Collections.Specialized.BitVector32;
 
 class Program
 {
     static void Main()
     {
-        EmptyClass petrol = new EmptyClass(0, "", 0);
+        Account AccountOne = new Account(593481, "Зуев Александор Максимович", 0);
+        Account AccountTwo = new Account(315317, "Кириллова Виктория Викторовна", 0);
 
-        Console.WriteLine("Инструкция");
-        Console.WriteLine("1 - Открыть счет;");
-        Console.WriteLine("2 - Показать информацию о счете;");
-        Console.WriteLine("3 - Положить на счет;");
-        Console.WriteLine("4 - Снять со счета;");
-        Console.WriteLine("5 - Взять всю сумму;");
-        Console.WriteLine("6 - Перенести сумму с одного счета на другой.");
 
         while (true)
         {
-            ConsoleKeyInfo KeyInfo = Console.ReadKey(true);
+            Console.WriteLine("Введите банк");
+            int AccountSelectionVar = int.Parse(Console.ReadLine());
 
-            switch (KeyInfo.Key)
+            Account AccountSelection;
+            
+                if (AccountSelectionVar == 1)
+                {
+                    AccountSelection = AccountOne;
+                }
+                else if (AccountSelectionVar == 2)
+                {
+                    AccountSelection = AccountTwo;
+                }
+            else {continue;}
+                
+            
+
+            Console.WriteLine("1 - Показать информацию о счете;");
+            Console.WriteLine("2 - Положить на счет;");
+            Console.WriteLine("3 - Снять со счета;");
+            Console.WriteLine("4 - Взять всю сумму;");
+            Console.WriteLine("5 - Перенести сумму с одного счета на другой.");
+
+            int Button = int.Parse(Console.ReadLine());
+            switch (Button)
             {
-                case ConsoleKey.D1:
-                    petrol.OpenAnAccount();
+                case 1:
+                    AccountSelection.AccountInformation();
                 break;
 
-                case ConsoleKey.D2:
-                    petrol.ShowAccountInformation();
+                case 2:
+                    AccountSelection.ReplenishmentAccount();
                 break;
 
-                case ConsoleKey.D3:
-                    petrol.PutItOnTheAccount();
+                case 3:
+                    AccountSelection.WithdrawalAccount();
                 break;
 
-                case ConsoleKey.D4:
-                    petrol.WithdrawFromTheAccount();
+                case 4:
+                    AccountSelection.RemoveAll();
                 break;
 
-                case ConsoleKey.D5:
-                    petrol.TakeTheWholeAmount();
-                break;
-
-                case ConsoleKey.D6:
-                    petrol.TransferTheAmountFromOneAccountToAnother();
-                break;
+                case 5:
+                    Console.WriteLine("Введите номер счета, на который хотите перевести средства:");
+                    int RecipientAccountNumber = int.Parse(Console.ReadLine());
+                    Account RecipientAccount;
+                    if (RecipientAccountNumber == 1)
+                    {
+                        RecipientAccount = AccountOne;
+                    }
+                    else if (RecipientAccountNumber == 2)
+                    {
+                        RecipientAccount = AccountTwo;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неверный номер счета.");
+                        break;
+                    }
+                    Console.WriteLine("Введите сумму для перевода:");
+                    double TransferAmount = double.Parse(Console.ReadLine());
+                    AccountSelection.Transfer(RecipientAccount, TransferAmount);
+                    break;
             }
         }
     }
